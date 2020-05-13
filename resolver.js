@@ -14,7 +14,7 @@ const books = [
 // schema. This resolver retrieves books from the "books" array above.
 const resolver = {
     Query: {
-      lolo: () => books,
+      books: () => books,
     },
   };
 

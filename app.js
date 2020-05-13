@@ -1,14 +1,3 @@
-const MongoClient = require('mongodb').MongoClient;
-const credentials = require('./credentials/credentials.js')
-const client = new MongoClient(credentials.DBURL, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("users");
-  if (err) throw err;
-  // perform actions on the collection object
-  client.close();
-});
-
-
 const { ApolloServer, gql } = require('apollo-server');
 
 // A schema is a collection of type definitions (hence "typeDefs")
@@ -30,31 +19,18 @@ const typeDefs = gql`
     books: [Book]
   }
 `;
+ 
+const resolver = require('./resolver.js')
+const resolv = resolver.resolver
 
-const books = [
-    {
-      title: 'Harry Potter and the Chamber of Secrets',
-      author: 'J.K. Rowling',
-    },
-    {
-      title: 'Jurassic Park',
-      author: 'Michael Crichton',
-    },
-  ];
-
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
-const resolvers = {
-    Query: {
-      books: () => books,
-    },
-  };
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolv });
+exports.server = server
 
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+// COMMENT IN DEPLOYMENT MODE
+// // The `listen` method launches a web server.
+// server.listen().then(({ url }) => {
+//   console.log(`🚀  Server ready at ${url}`);
+// });

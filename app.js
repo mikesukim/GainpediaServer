@@ -1,8 +1,4 @@
 const { ApolloServer, gql } = require('apollo-server');
-
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
 const typeDefs = gql`
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
@@ -21,12 +17,10 @@ const typeDefs = gql`
 `;
  
 const resolver = require('./resolver.js')
-const resolv = resolver.resolver
+const resolvers = resolver.resolver
 
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolv });
+const server = new ApolloServer({ typeDefs, resolvers });
 exports.server = server
 
 // COMMENT IN DEPLOYMENT MODE

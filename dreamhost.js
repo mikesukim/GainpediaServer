@@ -3,10 +3,10 @@
 //Locate this file one above of current directory
 
 
-const app = require('./GainpediaServer/app.js')
-const server = app.server
+const server = require('./GainpediaServer/app.js')
+const app = server.app
 
 // The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+app.listen(port, () => 
+console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
+)

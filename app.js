@@ -1,4 +1,8 @@
-const { ApolloServer,gpl } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
+const express = require('express')
+const app = express()
+const port = 4000
+
 
 const resolver = require('./resolver.js')
 const schema = require('./schema.js')
@@ -9,10 +13,11 @@ const server = new ApolloServer({
   typeDefs, 
   resolvers,
  });
-exports.server = server
+
+server.applyMiddleware({ app });
+exports.app = app
 
 // COMMENT IN DEPLOYMENT MODE
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+// app.listen(port, () => 
+// console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
+// )

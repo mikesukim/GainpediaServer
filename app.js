@@ -20,7 +20,13 @@ const resolver = require('./resolver.js')
 const resolvers = resolver.resolver
 
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ 
+  typeDefs, 
+  resolvers,
+  context: ({ request }) => {
+    console.log(request.headers)
+  }
+ });
 exports.server = server
 
 // COMMENT IN DEPLOYMENT MODE

@@ -1,7 +1,7 @@
 //This file is for connecting App to Dreamhost Server.
 //Change current filename to app.js and
 //Locate this file one above of current directory
-
+const port = 4000
 
 const server = require('./GainpediaServer/app.js')
 const app = server.app

@@ -15,9 +15,13 @@ const server = new ApolloServer({
  });
 
 server.applyMiddleware({ app });
+app.get('/', (req, res) => res.send('Hello World!'))
+app.use(express.static('public'));
 exports.app = app
 
-// COMMENT IN DEPLOYMENT MODE
-// app.listen(port, () => 
-// console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
-// )
+//Run this file in local development environment.
+if (process.env.NODE_ENV="development"){
+  app.listen(port, () => 
+  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
+  )  
+};

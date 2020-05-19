@@ -2,7 +2,7 @@ const { ApolloServer } = require('apollo-server-express');
 const express = require('express')
 const app = express()
 const port = 4000
-
+var cors = require("cors");
 
 const resolver = require('./resolver.js')
 const schema = require('./schema.js')
@@ -15,6 +15,7 @@ const server = new ApolloServer({
  });
 
 server.applyMiddleware({ app });
+app.use(cors());
 app.get('/', (req, res) => res.send('Hello World!'))
 app.use(express.static('public'));
 exports.app = app

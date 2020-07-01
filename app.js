@@ -1,30 +1,28 @@
-const { ApolloServer, gql } = require('apollo-server');
-const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+const { ApolloServer } = require('apollo-server-express');
+const express = require('express')
+const app = express()
+const port = 4000
+var cors = require("cors");
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`;
- 
 const resolver = require('./resolver.js')
+const schema = require('./schema.js')
 const resolvers = resolver.resolver
+const typeDefs = schema.typeDefs
 
+const server = new ApolloServer({ 
+  typeDefs, 
+  resolvers,
+ });
 
-const server = new ApolloServer({ typeDefs, resolvers });
-exports.server = server
+server.applyMiddleware({ app });
+app.use(cors());
+app.get('/', (req, res) => res.send('Hello World!'))
+app.use(express.static('public'));
+exports.app = app
 
-// COMMENT IN DEPLOYMENT MODE
-// // The `listen` method launches a web server.
-// server.listen().then(({ url }) => {
-//   console.log(`🚀  Server ready at ${url}`);
-// });
+//Run this file in local development environment.
+if (process.env.NODE_ENV="development"){
+  app.listen(port, () => 
+  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
+  )  
+};
